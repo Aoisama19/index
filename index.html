@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunflower Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            border: 2px solid #8b0000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="flowerCanvas" width="800" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('flowerCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawSunflower(x, y, petalCount, petalLength, petalWidth, petalColor, centerColor) {
+            ctx.save();
+            ctx.translate(x, y);
+            for (let i = 0; i < petalCount; i++) {
+                ctx.rotate((2 * Math.PI) / petalCount);
+                ctx.beginPath();
+                ctx.ellipse(0, petalLength / 2, petalWidth / 2, petalLength, 0, 0, 2 * Math.PI);
+                ctx.fillStyle = petalColor;
+                ctx.fill();
+                ctx.strokeStyle = petalColor;
+                ctx.stroke();
+            }
+            ctx.restore();
+            ctx.beginPath();
+            ctx.arc(x, y, 40, 0, 2 * Math.PI, false);
+            ctx.fillStyle = centerColor;
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+
+        const sunflowerColor = 'yellow';
+        const centerColor = '#8B4513';
+
+        let frame = 0;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const petalCount = 24;
+            const petalLength = 50 + frame * 0.7;
+            const petalWidth = 20;
+            drawSunflower(canvas.width / 2, canvas.height / 2, petalCount, petalLength, petalWidth, sunflowerColor, centerColor);
+
+            frame = (frame + 1) % 200; 
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
